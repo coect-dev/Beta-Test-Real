@@ -45,7 +45,7 @@ export default function Layout({ children }) {
     position: 'fixed',
 		top: "0px",
     height: '100%',
-		width : "30%"
+		width : "60%",
   },
   bmMenu: {
     background: '#FAFAFA',
@@ -70,26 +70,13 @@ export default function Layout({ children }) {
 	// 	small: {}
 	// };
 
-	useEffect(function mount() {
-    function onScroll() {
-      setOpacity(window.scrollY)
-			console.log(opacity)
-    }
-
-    window.addEventListener("scroll", onScroll);
-
-    return function unMount() {
-      window.removeEventListener("scroll", onScroll);
-    };
-  });
-
 
 	return (
 		<html style={{ width: '100vw' }}>
 			<head>
 				<title>COECT</title>
 			</head>
-			<body style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', margin:0 ,overflowX:"hidden" }}>
+			<body style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', margin:0 ,overflowX:"scroll" }}>
 				<div style={{ display: 'flex', justifyContent: 'space-between', paddingLeft:50, paddingRight: 50, paddingTop: 16, paddingBottom: 16, width: '97%', alignItems:'center', position:"fixed", zIndex:1, backgroundColor:"white", opacity: opacity<350 ? 1 : 0.8 }}>
 					<Link href="/" style={{ display: 'flex', gap: 6, alignItems: 'baseline', textDecoration: 'none' }}>
 						<img src={require('../public/imgs/logo.svg').default.src} alt="COECT 로고" style={{ height: 26 }}/>

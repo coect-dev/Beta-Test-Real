@@ -25,6 +25,8 @@ export default function CategoryIdPage(props) {
     query: '(min-width: 1045px)'
   })
   const isMobile = useMediaQuery({ query: '(max-width: 1045px)' })
+
+
 	const articlesInCategory = articles.filter(
 		(article) => article.category == props.cid
 	);
@@ -45,6 +47,7 @@ export default function CategoryIdPage(props) {
 	};
 
 	const strings = ["네옴시티가 무엇인지 더 알아보고 싶으신가요?", "해외여행 대세, 가까운 방콕은 어떤가요?", "헤드셋, 머리아파서 바꾸고 싶으셨나요?", "나에게 어떤 아이메이크업이 맞을지 도저히 모르겠다면?", "새로 나온 그랜저 , 과연 그 명성을 이어갈 수 있을까?"]
+
 
 	return (
 		<Layout>

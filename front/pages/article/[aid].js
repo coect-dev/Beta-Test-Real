@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useMediaQuery } from "react-responsive";
 // import YouTube from 'react-youtube';
 
@@ -16,12 +16,13 @@ export function getStaticPaths() {
 		fallback: false,
 	};
 }
-const relatedArticlesByKeywords = article.keywords.map((k) => ({
-	keyword: k,
-	articles: articles.filter(
-		(a) => a.keywords.includes(k) && a.id != article.id
-	),
-}));
+// const relatedArticlesByKeywords = article.keywords.map((k) => ({
+// 	keyword: k,
+// 	articles: articles.filter(
+// 		(a) => a.keywords.includes(k) && a.id != article.id
+// 	),
+// }));
+
 
 export function getStaticProps({ params }) {
 	return { props: { aid: params.aid } };
@@ -58,6 +59,8 @@ export default function ArticleIdPage(props) {
 			a.id != article.id
 	);
 
+	let parent = document.querySelector('.sticky').parentElement;
+
 	return (
 		<Layout>
 			<div
@@ -86,7 +89,7 @@ export default function ArticleIdPage(props) {
 								<span>그랜저</span>
 							</div>
 							<div style={{ dipslay: "flex", gap: 6 }}>
-								<div style={{ fontWeight: "500",fontSize: isMobile? 24 : 32 }}>
+								<div style={{ fontWeight: "500",fontSize: isMobile? 24 : 32, top: "0px" }}>
 									코엑트 전직원에게 그랜저 하이브리드 제공 선언?
 								</div>
 								<div style={{ display: "flex", gap: 6, alignItems: "center" }}>
@@ -108,22 +111,25 @@ export default function ArticleIdPage(props) {
 								justifyContent: "center",
 								alignItems: "center",
 								width: "100%",
-								// position: "fixed"
+								height: "50%",
+								backgroundColor:'white'
 							}}
 						>
 							<div
 								style={{
-									position: "relative",
-									overflow: "hidden",
+									position: "sticky",
+									top: 20,
+									// overflow: "hidden",
 									width: isMobile? "70%" : "95%",
 									paddingTop: "42%",
 									display: "flex",
+								
 								}}
 							>
 								<iframe
 									style={{
 										borderRadius: 8,
-										overflow: "hidden",
+										// overflow: "hidden",
 										position: "absolute",
 										top: "0",
 										left: "0",
@@ -209,7 +215,7 @@ export default function ArticleIdPage(props) {
 								borderRadius: 8,
 								borderStyle: "hidden",
 								boxShadow: "0 0 0 1px #919191",
-								overflow: "hidden",
+								// overflow: "hidden",
 							}}
 						>
 							<tr style={{ textAlign: "center", fontSize: isMobile? 16:16, height:"30px" }}>

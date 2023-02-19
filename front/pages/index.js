@@ -21,7 +21,7 @@ export default function MainPage() {
 				style={{
 					display: "flex",
 					flexDirection: "column",
-					gap: 180,
+					gap: 90,
 					alignItems: "center",
 					width: "100vw",
 				}}
