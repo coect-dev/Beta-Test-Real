@@ -7,8 +7,16 @@ import Link from "next/link";
 import Layout from "../../../comps/Layout.js";
 import Subtitle from "../../../comps/Subtitle";
 import ArticleSummaryToday from "../../../comps/ArticleSummaryToday";
-import TextUnit from "../../../comps/TextUnit";
+
 import Author from "../../../comps/Author.js";
+import {
+	InformationTableMobile,
+	InformationTableDesktop,
+} from "../../../comps/articlepage/InformationTable.js";
+import SummaryText from "../../../comps/articlepage/SummaryText.js";
+import Agenda from "../../../comps/articlepage/Agenda.js";
+import RelatedArticle from "../../../comps/articlepage/RelatedArticle.js";
+import ArticleTitle from "../../../comps/articlepage/ArticleTitle.js";
 
 import { articles, brands, colors } from "../../../shared";
 
@@ -24,13 +32,6 @@ export function getStaticPaths() {
 export function getStaticProps({ params }) {
 	return { props: { aid: params.aid } };
 }
-
-// export async function getStaticPaths() {
-//     return {
-//         paths: articles.map(a => ({ params: { aid: a.id } })),
-//         fallback: false
-//     }
-//   }
 
 export default function ArticleIdPage(props) {
 	const [player, setPlayer] = useState(null);
@@ -64,203 +65,79 @@ export default function ArticleIdPage(props) {
 	const article = articles.find((a) => a.id == props.aid);
 	const brand = brands.find((b) => b.name == article.brand);
 	const model = brand.models.find((m) => m.name == article.model);
-	const submodel = model.submodels.find((s) => s.name == article.submodel) || model.submodels[0];
-	const fullname = `${brand.name} ${model.name} ${submodel ? submodel.name + ' ' : ''} (${model.generation}세대)`;
-
+	const submodel =
+		model.submodels.find((s) => s.name == article.submodel) ||
+		model.submodels[0];
+	const fullname = `${brand.name} ${model.name} ${
+		submodel ? submodel.name + " " : ""
+	} (${model.generation}세대)`;
 
 	const relatedArticles = useRef(
 		articles
-			.filter(
-				(a) =>
-					a.brand == article.brand &&
-					a.id != article.id
-			)
-			.sort(function(a,b){ 
-					if( a.model == article.model ) {
-						return -1;
-					}
-					else if (b.model == article.model) {
-						return 1;
-					}
+			.filter((a) => a.brand == article.brand && a.id != article.id)
+			.sort(function (a, b) {
+				if (a.model == article.model) {
+					return -1;
+				} else if (b.model == article.model) {
+					return 1;
+				}
 			})
 			.slice(0, 3) // 랜덤으로 3개 뽑기
 	);
 
-		console.log(playing)
-
+	console.log(playing);
 
 	return (
-		<Layout title={article.title + ' - COECT'} description={`${article.channelName}에서 ${article.brand} ${article.model}의 ${article.summaries.map(_ => _.topic).slice(0,10).join(', ')} 등에 대해 다룹니다.`}>
+		<Layout
+			title={article.title + " - COECT"}
+			description={`${article.channelName}에서 ${article.brand} ${
+				article.model
+			}의 ${article.summaries
+				.map((_) => _.topic)
+				.slice(0, 10)
+				.join(", ")} 등에 대해 다룹니다.`}
+		>
 			<div
 				style={{
-					maxWidth: 1032,
-					marginTop: isMobile? 10: 60,
+					maxWidth: "80vw",
+					marginTop: isMobile ? 10 : 60,
 					display: "flex",
 					flexDirection: "column",
 					gap: 80,
 				}}
 			>
-				<div style={{ margin: isMobile ? "10px" : "0px" }}>
-					<div
-						style={{
-							display: "flex",
-							flexDirection: "column",
-							gap: 16,
-							margin: isMobile ? "10px" : "0px",
-						}}
-					>
-						<div
-							style={{
-								display: "flex",
-								alignItems: "center",
-								gap: 4,
-								fontSize: 14,
-								color: colors.primary,
+				<div
+					style={{
+						display: "flex",
+						flexDirection: "row",
+						justifyContent: "center",
+						alignContent: "center",
+						// width: 5
+					}}
+				>
+					<div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+						<YouTube
+							videoId={article.videoId}
+							opts={{
+								width: "100%",
+								height: 350,
 							}}
-						>
-							<Link href={`/car/brand/${brand.nameEng}`} style={{ textDecoration: 'none', color: colors.primary}}>{article.brand}</Link>
-							<span style={{ color: "#BDBDBD" }}>&gt;</span>
-							<Link href={`/car/brand/${brand.nameEng}?model=${model.name}`} style={{ textDecoration: 'none', color: colors.primary}}>{article.model}</Link>
-						</div>
-						<div style={{ dipslay: "flex", gap: 6 }}>
-							<h1 style={{ fontWeight: 500, fontSize: isMobile ? 20 :28,margin: 0}}>{article.title}
-							</h1>
-							<div style={{ display: "flex", gap: 6, alignItems: "center", marginTop: isMobile? "8px" : "10px" }}>
-								<Author
-									name={article.channelName}
-									image={article.channelImageUrl}
-								/>
-								<span style={{color: "#919191" }}>|</span>
-								<span style={{ fontSize: 15, color: "#919191" }}>
-									{article.date.replaceAll("-", ".") + "."}
-								</span>
-							</div>
-						</div>
-					</div>
-					<div
-						style={{
-							position: isMobile ? "sticky" : playing? "sticky" : "",
-							// position: isMobile ? "sticky" : "",
-							top: 0,
-							paddingTop: 36,
-							top: 40,
-							alignSelf: "flex-start",
-							display: "flex",
-							gap: isMobile ? 5 : 30,
-							justifyContent: "center",
-							alignItems: "center",
-							width: "100%",
-							// height: 350,
-							// marginTop: 36,
-							zIndex: 2,
-							background:
-								"linear-gradient(to top, rgba(255,255,255,0), white 30px)",
-							paddingBottom: 30,
-						}}
-					>
-						<div
-							style={{
-								borderRadius: 8,
-								overflow: "hidden",
-								// top: 20,
-								// width: isMobile ? "70%" : "95%",
-								display: "flex",
-								justifyContent: "center",
-								alignItems: "center",
-								alignContents:"center",
-								// width:"100%",
-								// height:"100%",
-								backgroundColor: "white",
-								
-							}}
-							class="youtube"
-						>
-							<YouTube
-								videoId={article.videoId}
-								opts={{
-									width: isYoutube? 356: 654, 
-									height: isYoutube? 200: 368 ,
-					
-								}}
-								style={{width: isYoutube? 356: 654, height: isYoutube? 200: 368}}
-								onReady={onPlayerReady}
-								onPlay={()=> setPlaying(true)}
-								onPause={()=> setPlaying(false)}
-								// onStateChange={()=> setPlaying(!playing)}
-								// onEnd={()=> setPlaying(false)}
-							/>
-						</div>
-						{isDesktop &&
-						<div
-							style={{
-								display: "flex",
-								flexDirection: "column",
-								gap: 20,
-								maxHeight: 330,
-								overflow: "scroll",
-								flexGrow: 1,
-								borderRadius: 8,
-								borderWidth: 1,
-								borderColor: "#919191",
-								borderStyle: "solid",
-								paddingTop: 18,
-								paddingLeft: 20,
-								paddingRight: 20,
-								paddingBottom: 18,
-								position: 'sticky',
-								top:40
-							}}
-						>
-							
-							<div>
-							<div style={{ fontSize: 18, marginBottom:20, color: colors.primaryDark }}>
-								목차
-							</div>
-							<div
-								style={{
-									display: "flex",
-									flexDirection: "column",
-									gap: 16,
-								}}
-							>
-								{article.summaries.map((s, i) => (
-									<a
-										key={i}
-										onClick={() => {
-											player.seekTo(s.start);
-										}}
-										href="#/"
-										style={{
-											fontSize: isMobile ? 14 : 16,
-											textDecoration: "none",
-											color:
-												(i >= article.summaries.length - 1 ||
-													currentTime == article.summaries[i + 1].start)
-													? colors.primary
-													: colors._300,
-										}}
-										className={style.chapter}
-									>
-										{i + 1}. {s.topic}
-									</a>
-								))}
-							</div>
-						</div>
-						
-						</div>
-}
-				
-					</div>
-					<div style={{display: "flex", flexDirection: "row",justifyContent:"space-between", marginTop:"30px",gap: 5 }}>
-						<div
 							style={{
 								width: "100%",
-								paddingLeft: isMobile ? 10 : 1,
-								paddingRight: isMobile ? 10 : 1,
-								boxSizing: "border-box",
-								// height:350
+								height: 350,
 							}}
-						>
+							onReady={onPlayerReady}
+							onPlay={() => setPlaying(true)}
+							onPause={() => setPlaying(false)}
+						/>
+						<ArticleTitle
+							isMobile={isMobile}
+							brand={brand}
+							article={article}
+							model={model}
+						/>
+							<div style={{display:"flex", flexDirection:"column"}}>
+							<div style={{fontSize:16, fontWeight:700, }}> AI SearchBot*</div>
 							<table
 								style={{
 									width: "100%",
@@ -269,231 +146,27 @@ export default function ArticleIdPage(props) {
 									borderStyle: "hidden",
 									boxShadow: "0 0 0 1px #919191",
 									overflow: "hidden",
+									marginTop: 40
 								}}
 							>
-								<tr
-									style={{
-										textAlign: "center",
-										fontSize: isMobile ? 14 : 16,
-										height: "30px",
-									}}
-								>
-									<th colspan={ isDesktop ? 6 : 2 }>{fullname}</th>
-								</tr>
-								{
-									isDesktop && Array(Math.ceil(submodel.specs.length / 3)).fill(0).map((_, i) => i).map(i => (
-										<tr key={i}>
-										{
-											[0, 1, 2].map(j => {
-												const spec = submodel.specs[i * 3 + j]
-												return (
-													spec && <>
-														<td
-															key={j*2}
-															style={{
-																width: 100,
-																paddingTop: 11,
-																paddingBottom: 11,
-																paddingLeft: 15,
-																paddingRight: 15,
-																textAlign: "center",
-																backgroundColor: colors.primaryDark,
-																color: "white",
-																fontSize: 12,
-																...styles.cell,
-															}}
-														>
-															{spec.field}
-														</td>
-														<td 
-															key={j*2+1}
-															style={{ 
-																...styles.cell,
-																width: 300,
-																textAlign: "center",
-																fontSize: 14
-															}}
-														>
-															{spec.description}
-														</td>
-													</>
-												);
-											})
-										}
-										</tr>
-									))
-								}
-								{ isMobile && submodel.specs.map((spec,i) => (
-									<tr key={i}>
-										<td
-											style={{
-												width: 50,
-												paddingTop: 11,
-												paddingBottom: 11,
-												paddingLeft: 15,
-												paddingRight: 15,
-												textAlign: "center",
-												backgroundColor: colors.primaryDark,
-												color: "white",
-												fontSize: 12,
-												...styles.cell,
-											}}
-										>
-											{spec.field}
-										</td>
-										<td style={{ 
-											...styles.cell,
-											textAlign: "center",
-											fontSize: 14
-										}}>
-											{spec.description}
-										</td>
-									</tr>
-								))}
+								{isDesktop && (
+									<InformationTableDesktop submodel={submodel} styles={styles} />
+								)}
+								{isMobile && (
+									<InformationTableMobile submodel={submodel} styles={styles} />
+								)}
 							</table>
 						</div>
-						{isMobile && <div
-							style={{
-								display: "flex",
-								flexDirection: "column",
-								gap: 10,
-								maxHeight: 330,
-								overflow: "scroll",
-								flexGrow: 1,
-								borderRadius: 8,
-								borderWidth: 1,
-								borderColor: "#919191",
-								borderStyle: "solid",
-								paddingTop: 15,
-								paddingLeft: 20,
-								paddingRight: 20,
-								paddingBottom: 18,
-								boxSizing: 'border-box',
-								// position: 'sticky',
-								// top:10
-							}}
-						>
-							<div style={{ fontSize: 16, color: colors.primaryDark }}>
-								목차
-							</div>
-							<div
-								style={{
-									display: "flex",
-									flexDirection: "column",
-									gap: 16,
-								}}
-							>
-								{article.summaries.map((s, i) => (
-									<a
-										key={i}
-										onClick={() => {2
-											player.seekTo(s.start);
-										}}
-										href="#/"
-										style={{
-											fontSize: isMobile ? 14 : 16,
-											textDecoration: "none",
-											color:
-												currentTime >= s.start &&
-												(i >= article.summaries.length - 1 ||
-													currentTime < article.summaries[i + 1].start)
-													? colors.primary
-													: colors._300,
-										}}
-									>
-										{i + 1}. {s.topic}
-									</a>
-								))}
-							</div> 
-						</div>
-					}
 					</div>
-					
-					<div
-						style={{
-							margin: "10px",
-							marginTop: 60,
-							display: "flex",
-							flexDirection: "column",
-							gap: 20,
-						}}
-					>
-						<div style={{fontWeight:"500", fontSize: 18}}> 콘텐츠 핵심 내용 보기</div>
-						{article.summaries.map((summary, i) =>
-							summary.text ? (
-								<TextUnit
-									key={i}
-									topic={`${i + 1}. ${summary.topic}`}
-									start={summary.start}
-									isPlaying={
-										currentTime >= summary.start &&
-										(i >= article.summaries.length - 1 ||
-											currentTime < article.summaries[i + 1].start)
-									}
-									seekTo={() => {
-											player.seekTo(summary.start);
-											setPlaying(true);
-											player.playVideo();
-											}}
-									
-									
-								>
-									{summary.text}
-								</TextUnit>
-							) : (
-								<div
-									key={i}
-									style={{
-										textAlign: "center",
-										marginTop: 20,
-										marginBottom: 20,
-									}}
-								>
-									<Image
-										src={`/imgs/figures/${summary.image}`}
-										width={400}
-										height={200}
-										alt="영상 캡쳐 이미지"
-									/>
-								</div>
-							)
-						)}
-					</div>
+
+					<SummaryText article={article} currentTime={currentTime} s />
 				</div>
-				{relatedArticles.current.length > 0 && (
-					<div
-						style={{
-							display: "flex",
-							flexDirection: "column",
-							gap: 32,
-							marginTop: 112,
-						}}
-					>
-						<div style={{ fontSize: isMobile ? 18: 22, display: "flex", marginLeft: isMobile ? 30 : 0 }}>
-							<span style={{ color: colors.primary }}>{article.brand}</span>
-							&nbsp;
-							<span style={{ color: colors.primary }}>{article.model}</span>
-							&nbsp;
-							<span>관련 영상 더보기</span>
-						</div>
-						<div
-							style={{
-								width: "100%",
-								display: "flex",
-								gap: 36,
-								flexDirection: isDesktop ? "row" : "column",
-								justifyContent: "center",
-								alignItems: "center",
-							}}
-						>
-							{relatedArticles.current.map((article) => (
-								<div key={article.id} style={{ flex: 1 }}>
-									<ArticleSummaryToday article={article} />
-								</div>
-							))}
-						</div>
-					</div>
-				)}
+
+				<RelatedArticle
+					relatedarticle={relatedArticles}
+					article={article}
+					ismobile={isMobile}
+				/>
 			</div>
 		</Layout>
 	);

@@ -180,7 +180,7 @@ export default function Layout({ title, description, children }) {
 											paddingRight: 12,
 											border: "none",
 											outline: "none",
-											// fontSize: 12,
+											fontSize: 12,
 										}}
 										type="text"
 										placeholder="원하는 차종을 검색해보세요."
