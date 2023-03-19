@@ -279,7 +279,6 @@ export default function Layout({ title, description, children }) {
 					<br />
 					<br />
 					<br />
-					<br />
 					<div style={{ textAlign: "center", color: "#959595" }}>© 2023 Coect</div>
 					<br />
 					<br />

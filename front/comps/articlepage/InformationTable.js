@@ -5,7 +5,7 @@ export function InformationTableMobile(props) {
 		<tr key={i}>
 			<td
 				style={{
-					width: 20,
+					width: 50,
 					paddingTop: 11,
 					paddingBottom: 11,
 					paddingLeft: 15,

@@ -5,13 +5,13 @@ export default function SummaryText(props) {
 return(
 			<div
 						style={{
-							margin: "10px",
 							display: "flex",
 							flexDirection: "column",
 							gap: 20,
 							height:"80vh",
 							overflowY:"scroll",
-							width:"50vw"
+							width: props.ismobile? "80vw" : "40vw",
+							marginLeft: "-20px"
 						}}
 					>
 						<div style={{fontWeight:"500", fontSize: 18}}> 콘텐츠 핵심 내용 보기</div>
@@ -27,9 +27,9 @@ return(
 											props.currentTime < article.summaries[i + 1].start)
 									}
 									seekTo={() => {
-											player.seekTo(summary.start);
+											props.player.seekTo(summary.start);
 											setPlaying(true);
-											player.playVideo();
+											props.player.playVideo();
 											}}
 									
 									

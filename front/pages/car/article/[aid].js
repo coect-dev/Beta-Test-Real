@@ -4,6 +4,7 @@ import YouTube from "react-youtube";
 import Image from "next/image";
 import Link from "next/link";
 
+
 import Layout from "../../../comps/Layout.js";
 import Subtitle from "../../../comps/Subtitle";
 import ArticleSummaryToday from "../../../comps/ArticleSummaryToday";
@@ -13,10 +14,11 @@ import {
 	InformationTableMobile,
 	InformationTableDesktop,
 } from "../../../comps/articlepage/InformationTable.js";
-import SummaryText from "../../../comps/articlepage/SummaryText.js";
+
 import Agenda from "../../../comps/articlepage/Agenda.js";
-import RelatedArticle from "../../../comps/articlepage/RelatedArticle.js";
+
 import ArticleTitle from "../../../comps/articlepage/ArticleTitle.js";
+import RightPage from "../../../comps/articlepage/RightPage.js";
 
 import { articles, brands, colors } from "../../../shared";
 
@@ -61,6 +63,7 @@ export default function ArticleIdPage(props) {
 			borderWidth: 1,
 		},
 	};
+	const [key, setKey] = useState("home");
 
 	const article = articles.find((a) => a.id == props.aid);
 	const brand = brands.find((b) => b.name == article.brand);
@@ -100,31 +103,31 @@ export default function ArticleIdPage(props) {
 			<div
 				style={{
 					maxWidth: "80vw",
-					marginTop: isMobile ? 10 : 60,
+					
 					display: "flex",
 					flexDirection: "column",
-					gap: 80,
+					// gap: 80,
 				}}
 			>
 				<div
 					style={{
 						display: "flex",
-						flexDirection: "row",
+						flexDirection: isMobile? "column" : "row",
 						justifyContent: "center",
 						alignContent: "center",
-						// width: 5
+						gap: 40,
 					}}
 				>
-					<div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+					<div style={{ display: "flex", flexDirection: "column", justifyContent:"center", alignContent:"center", gap: 20 }}>
 						<YouTube
 							videoId={article.videoId}
 							opts={{
-								width: "100%",
-								height: 350,
+								width: isYoutube? 356: 654, 
+									height: isYoutube? 200: 368 ,
 							}}
 							style={{
-								width: "100%",
-								height: 350,
+								width: isYoutube? 356: 654, 
+									height: isYoutube? 200: 368 ,
 							}}
 							onReady={onPlayerReady}
 							onPlay={() => setPlaying(true)}
@@ -136,8 +139,11 @@ export default function ArticleIdPage(props) {
 							article={article}
 							model={model}
 						/>
-							<div style={{display:"flex", flexDirection:"column"}}>
-							<div style={{fontSize:16, fontWeight:700, }}> AI SearchBot*</div>
+						<div style={{ display: "flex", flexDirection: "column" }}>
+							<div style={{ fontSize: 16, fontWeight: 700 }}>
+								{" "}
+								AI SearchBot*
+							</div>
 							<table
 								style={{
 									width: "100%",
@@ -146,27 +152,17 @@ export default function ArticleIdPage(props) {
 									borderStyle: "hidden",
 									boxShadow: "0 0 0 1px #919191",
 									overflow: "hidden",
-									marginTop: 40
+									marginTop: 10,
 								}}
 							>
-								{isDesktop && (
+
 									<InformationTableDesktop submodel={submodel} styles={styles} />
-								)}
-								{isMobile && (
-									<InformationTableMobile submodel={submodel} styles={styles} />
-								)}
+								{/* )} */}
 							</table>
 						</div>
 					</div>
-
-					<SummaryText article={article} currentTime={currentTime} s />
+					<RightPage article={article} currentTime={currentTime} relatedArticles={relatedArticles} ismobile={isMobile} player={player}/>
 				</div>
-
-				<RelatedArticle
-					relatedarticle={relatedArticles}
-					article={article}
-					ismobile={isMobile}
-				/>
 			</div>
 		</Layout>
 	);
