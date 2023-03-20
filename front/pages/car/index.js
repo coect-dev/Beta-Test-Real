@@ -252,34 +252,7 @@ export default function MainPage() {
 						maxWidth: 1032,
 					}}
 				>
-					<div
-						style={{
-							display: "flex",
-							flexDirection: "column",
-							alignItems: "center",
-							gap: isMobile ? 30 : 60,
-						}}
-					>
-						<div style={{ fontSize: 22, fontWeight: "500" }}>
-							차량 리뷰 Pick 👍
-						</div>
-						<div
-							style={{
-								display: "flex",
-								alignItems: "center",
-								flexDirection: isMobile ? "column" : "row",
-								gap: isMobile ? 20 : 36,
-								width: isMobile ? "80%" : "100%",
-							}}
-						>
-							{articles.slice(1, 4).map((article) => (
-								<div key={article.id} style={{ flex: 1 }}>
-									<ArticleSummaryToday key={article.id} article={article} />
-								</div>
-							))}
-						</div>
-					</div>
-					<div
+				<div
 						style={{
 							display: "flex",
 							flexDirection: "column",
@@ -387,6 +360,34 @@ export default function MainPage() {
 							</div>
 						)}
 					</div>
+					<div
+						style={{
+							display: "flex",
+							flexDirection: "column",
+							alignItems: "center",
+							gap: isMobile ? 30 : 60,
+						}}
+					>
+						<div style={{ fontSize: 22, fontWeight: "500" }}>
+							차량 리뷰 Pick 👍
+						</div>
+						<div
+							style={{
+								display: "flex",
+								alignItems: "center",
+								flexDirection: isMobile ? "column" : "row",
+								gap: isMobile ? 20 : 36,
+								width: isMobile ? "80%" : "100%",
+							}}
+						>
+							{articles.slice(1, 4).map((article) => (
+								<div key={article.id} style={{ flex: 1 }}>
+									<ArticleSummaryToday key={article.id} article={article} />
+								</div>
+							))}
+						</div>
+					</div>
+					
 					<div
 						style={{
 							width: "95%",
