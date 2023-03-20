@@ -38,8 +38,8 @@ export default function MainPage() {
 		}
 	}
 
-	const categories = ['차량', '전자기기', '패션', '여행']
-		const logos = [Car, Electric, Fashion, Trip]
+	const categories = ["차량", "전자기기", "패션", "여행"];
+	const logos = [Car, Electric, Fashion, Trip];
 
 	const autocomplete = (text) => {
 		if (!text) {
@@ -76,10 +76,15 @@ export default function MainPage() {
 			>
 				<Image src={Logo} alt="COECT" width={160} height={80} />
 			</Link>
-			<div style={{ fontSize: isMobile ? 12 : 18, color: "#6F6F6F"}}>
-				{" "}
-				영상 속 <span style={{ color: "#2B6F7D" }}> 필요한 </span> 정보만 찾아{" "}
-				<span style={{ color: "#2B6F7D" }}>빠르게</span> 읽으세요{" "}
+			<div style={{display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center", gap:10}}>
+				<div style={{ fontSize: isMobile ? 12 : 18, color: "#6F6F6F" }}>
+					영상으로 검색하는 시대.
+				</div>
+				<div style={{ fontSize: isMobile ? 12 : 18, color: "#6F6F6F" }}>
+					{" "}
+					영상 속 <span style={{ color: "#2B6F7D" }}> 필요한 </span> 정보만 찾아{" "}
+					<span style={{ color: "#2B6F7D" }}>빠르게</span> 읽으세요{" "}
+				</div>
 			</div>
 			<div
 				style={{
@@ -191,91 +196,99 @@ export default function MainPage() {
 					</div>
 				)}
 			</div>
-			{isDesktop &&
-			<div
-				style={{
-					display: "flex",
-					flexDirection: "row",
-					alignItems: "center",
-					justifyContent: "center",
-					gap: isMobile ? 80 : 100,
-					fontSize: 14,
-				}}
-			>
-			{categories.map((category, k) => 
-			<Link
-					href="/car"
-					style={{
-						display: "flex",
-						justifyContent: "center",
-						alignItems: "center",
-						flexDirection: "column",
-						gap: 8,
-					}}
-				>
-					<Image src={logos[k]} width={60} height={60} />
-					<div style={{color:'black', textDecoration:"none"}}> {category} </div>
-				</Link>
-			) }
-			
-			</div>
-}
-{isMobile &&
-<div style={{display:"flex", flexDirection:"column", gap:30}}> 
-			<div
-				style={{
-					display: "flex",
-					flexDirection: "row",
-					alignItems: "center",
-					justifyContent: "center",
-					gap: isMobile ? 80 : 100,
-					fontSize: 14,
-				}}
-			>
-			{categories.slice(0,2).map((category, k) => 
-			<Link
-					href="/car"
-					style={{
-						display: "flex",
-						justifyContent: "center",
-						alignItems: "center",
-						flexDirection: "column",
-						gap: 8,
-					}}
-				>
-					<Image src={logos[k]} width={60} height={60} />
-					<div style={{color:'black', textDecoration:"none"}}> {category} </div>
-				</Link>
-			) }
-			</div>
+			{isDesktop && (
 				<div
-				style={{
-					display: "flex",
-					flexDirection: "row",
-					alignItems: "center",
-					justifyContent: "center",
-					gap: isMobile ? 80 : 100,
-					fontSize: 14,
-				}}
-			>
-			{categories.slice(2,4).map((category, k) => 
-			<Link
-					href="/car"
 					style={{
 						display: "flex",
-						justifyContent: "center",
+						flexDirection: "row",
 						alignItems: "center",
-						flexDirection: "column",
-						gap: 8,
+						justifyContent: "center",
+						gap: isMobile ? 80 : 100,
+						fontSize: 14,
 					}}
 				>
-					<Image src={logos[k+2]} width={60} height={60} />
-					<div style={{color:'black', textDecoration:"none"}}> {category} </div>
-				</Link>
-			) }
-			</div>
-			</div>
-}
+					{categories.map((category, k) => (
+						<Link
+							href="/car"
+							style={{
+								display: "flex",
+								justifyContent: "center",
+								alignItems: "center",
+								flexDirection: "column",
+								gap: 8,
+							}}
+						>
+							<Image src={logos[k]} width={60} height={60} />
+							<div style={{ color: "black", textDecoration: "none" }}>
+								{" "}
+								{category}{" "}
+							</div>
+						</Link>
+					))}
+				</div>
+			)}
+			{isMobile && (
+				<div style={{ display: "flex", flexDirection: "column", gap: 30 }}>
+					<div
+						style={{
+							display: "flex",
+							flexDirection: "row",
+							alignItems: "center",
+							justifyContent: "center",
+							gap: isMobile ? 80 : 100,
+							fontSize: 14,
+						}}
+					>
+						{categories.slice(0, 2).map((category, k) => (
+							<Link
+								href="/car"
+								style={{
+									display: "flex",
+									justifyContent: "center",
+									alignItems: "center",
+									flexDirection: "column",
+									gap: 8,
+								}}
+							>
+								<Image src={logos[k]} width={60} height={60} />
+								<div style={{ color: "black", textDecoration: "none" }}>
+									{" "}
+									{category}{" "}
+								</div>
+							</Link>
+						))}
+					</div>
+					<div
+						style={{
+							display: "flex",
+							flexDirection: "row",
+							alignItems: "center",
+							justifyContent: "center",
+							gap: isMobile ? 80 : 100,
+							fontSize: 14,
+						}}
+					>
+						{categories.slice(2, 4).map((category, k) => (
+							<Link
+								href="/car"
+								style={{
+									display: "flex",
+									justifyContent: "center",
+									alignItems: "center",
+									flexDirection: "column",
+									gap: 8,
+								}}
+							>
+								<Image src={logos[k + 2]} width={60} height={60} />
+								<div style={{ color: "black", textDecoration: "none" }}>
+									{" "}
+									{category}{" "}
+								</div>
+							</Link>
+						))}
+					</div>
+				</div>
+			)}
 		</div>
 	);
 }
