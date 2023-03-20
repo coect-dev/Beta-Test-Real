@@ -4,7 +4,6 @@ import YouTube from "react-youtube";
 import Image from "next/image";
 import Link from "next/link";
 
-
 import Layout from "../../../comps/Layout.js";
 import Subtitle from "../../../comps/Subtitle";
 import ArticleSummaryToday from "../../../comps/ArticleSummaryToday";
@@ -103,7 +102,7 @@ export default function ArticleIdPage(props) {
 			<div
 				style={{
 					maxWidth: "80vw",
-					
+
 					display: "flex",
 					flexDirection: "column",
 					// gap: 80,
@@ -112,22 +111,28 @@ export default function ArticleIdPage(props) {
 				<div
 					style={{
 						display: "flex",
-						flexDirection: isMobile? "column" : "row",
-						justifyContent: "center",
-						alignContent: "center",
-						gap: 40,
+						flexDirection: isMobile ? "column" : "row",
+						gap: 30,
+													justifyContent: "center",
+							alignContent: "center",
 					}}
 				>
-					<div style={{ display: "flex", flexDirection: "column", justifyContent:"center", alignContent:"center", gap: 20 }}>
+					<div
+						style={{
+							display: "flex",
+							flexDirection: "column",
+							gap: 20,
+						}}
+					>
 						<YouTube
 							videoId={article.videoId}
 							opts={{
-								width: isYoutube? 356: 654, 
-									height: isYoutube? 200: 368 ,
+								width: isYoutube ? 300 : 654,
+								height: isYoutube ? 180 : 368,
 							}}
 							style={{
-								width: isYoutube? 356: 654, 
-									height: isYoutube? 200: 368 ,
+								width: isYoutube ? 300 : 654,
+								height: isYoutube ? 180 : 368,
 							}}
 							onReady={onPlayerReady}
 							onPlay={() => setPlaying(true)}
@@ -155,13 +160,18 @@ export default function ArticleIdPage(props) {
 									marginTop: 10,
 								}}
 							>
-
-									<InformationTableDesktop submodel={submodel} styles={styles} />
+								<InformationTableDesktop submodel={submodel} styles={styles} />
 								{/* )} */}
 							</table>
 						</div>
 					</div>
-					<RightPage article={article} currentTime={currentTime} relatedArticles={relatedArticles} ismobile={isMobile} player={player}/>
+					<RightPage
+						article={article}
+						currentTime={currentTime}
+						relatedArticles={relatedArticles}
+						ismobile={isMobile}
+						player={player}
+					/>
 				</div>
 			</div>
 		</Layout>
